@@ -75,9 +75,12 @@ verbose = TRUE,
   RefInSamp <- unique(na.omit(as.numeric(sub("r(\\d*)s\\d*", "\\1", group, perl = TRUE)))) 
   if (verbose) cat(" Found", length(RefInSamp), "reference genes in treatment sample(s)...\n")
   
-  ## check equal use of genes-of-interest/reference genes in treatments/controls
-  if (!all(RefInCon == RefInSamp)) stop("Unequal number of reference genes in treatment and control samples!")
-  if (!all(GoiInCon == GoiInSamp)) stop("Unequal number of genes-of-interest in treatment and control samples!") 
+  ## check equal use of genes-of-interest/reference genes in treatments/controls, ignore order!!
+  if (!setequal(RefInCon, RefInSamp)) 
+  stop("Unequal number of reference genes in treatment and control samples!") 
+
+if (!setequal(GoiInCon, GoiInSamp)) 
+  stop("Unequal number of genes-of-interest in treatment and control samples!")
   
   ## from 1.3-7: added removal of failed runs (either failed fits
   ## or SOD outlier) from DATA and 'group' by identification
